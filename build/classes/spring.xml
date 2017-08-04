@@ -19,6 +19,9 @@
         
 
     <context:component-scan base-package="com.invoice">
+    	<context:exclude-filter type="aspectj" expression="com.invoice.dao.*" />
+        <context:exclude-filter type="aspectj" expression="com.invoice.entity.*" />
+        <context:exclude-filter type="aspectj" expression="com.invoice.action.*" />
     </context:component-scan>
 
     <aop:aspectj-autoproxy />

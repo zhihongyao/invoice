@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.invoice.dao.InvoiceTitle">
+<mapper namespace="com.invoice.dao.InvoiceTitleDao">
 
     <select id="get" parameterType="String" resultType="InvoiceTitle">
-        SELECT * FROM invoice_title WHERE openid = #{openid} group by isdefault order by isdefault,time desc
+        SELECT * FROM invoice_title WHERE openid = #{openid} order by isdefault desc,time desc
     </select>
 
     <insert id="insert" parameterType="InvoiceTitle">
         INSERT INTO invoice_title (id,openid,type,isdefault,name,duty,address,phone,bank,account,time) 
-        	VALUES (replace(UUID(), "-", "")#{openid},#{type},#{isdefault},#{name},#{duty},#{address},#{phone},#{bank},#{account},sysdate())
+        	VALUES (replace(UUID(), "-", ""),#{openid},#{type},#{isdefault},#{name},#{duty},#{address},#{phone},#{bank},#{account},sysdate())
     </insert>
 
     <update id="update" parameterType="InvoiceTitle">
-        UPDATE invoice_title
+        UPDATE invoice_title 
         <set>
             <if test="openid != null"> openid = #{openid}, </if>
             <if test="type != null"> type = #{type}, </if>
@@ -24,8 +24,9 @@
             <if test="phone != null"> phone = #{phone}, </if>
             <if test="bank != null"> bank = #{bank}, </if>
             <if test="account != null"> account = #{account}, </if>
+            time = sysdate()
         </set>
-        time = sysdate() WHERE id = #{id}
+      	WHERE id = #{id}
     </update>
     
     <update id="updateDefault" parameterType="String">
